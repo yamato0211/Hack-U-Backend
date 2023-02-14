@@ -1,0 +1,15 @@
+{
+    "name": "hacku-studio9-backend",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "node",
+    "workspaceFolder": "/src",
+    "settings": {},
+    "extensions": [
+        "prisma.prisma",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+    ],
+    "forwardPorts": [
+        5555
+    ]
+}

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  node:
+    image: node:18-alpine3.16
+    environment:
+      TZ: "Asia/Tokyo"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../:/src
+    working_dir: /src
+    depends_on:
+      - db
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  db:
+    image: postgres:14
+    container_name: hack-u-db
+    volumes:
+      - db-data:/var/lib/postgresql/hacku_development/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+volumes:
+  db-data:
