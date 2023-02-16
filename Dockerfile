@@ -6,7 +6,6 @@ WORKDIR /opt
 
 RUN npm i -g npm
 RUN npm install 
-RUN npx prisma migrate dev
 RUN npx prisma generate
 RUN npm run build
 
