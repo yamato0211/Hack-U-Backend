@@ -11,8 +11,64 @@ datasource db {
 }
 
 model User {
-  id String @id
-  name String?
-  email String? @unique
-  picture String?
+  email         String    @id @unique
+  name          String?
+  picture       String?
+  description   String?
+  isEmailPublic Boolean   @default(false)
+  solvedIdeas   Idea[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
+  deletedAt     DateTime?
+  Likes         Likes[]
+  Comment       Comment[]
+}
+
+enum Status {
+  inProgress
+  resolved
+  unResolved
+}
+
+model Idea {
+  id        String    @id @default(uuid())
+  title     String
+  caption   String
+  lineID    String    @unique
+  author    String?
+  status    Status    @default(unResolved)
+  views     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  User      User?     @relation(fields: [userEmail], references: [email])
+  userEmail String?
+  Likes     Likes[]
+  Comment   Comment[]
+}
+
+model Likes {
+  user      User   @relation(fields: [UserEmail], references: [email])
+  UserEmail String
+  idea      Idea   @relation(fields: [ideaID], references: [id])
+  ideaID    String
+
+  @@id([UserEmail, ideaID])
+}
+
+model Comment {
+  id        String  @id @default(uuid())
+  user      User    @relation(fields: [UserEmail], references: [email])
+  UserEmail String
+  idea      Idea    @relation(fields: [ideaID], references: [id])
+  ideaID    String
+  message   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  id String @id @default(uuid())
+  message String? 
+  senderID String
+  receverID String
 }

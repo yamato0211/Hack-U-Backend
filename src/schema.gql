@@ -1,0 +1,84 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Likes {
+  user: User!
+  UserEmail: String!
+  idea: Idea!
+  ideaID: String!
+}
+
+type Idea {
+  id: String!
+  title: String!
+  caption: String!
+  lineID: String!
+  auther: String
+  status: Status!
+  views: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  user: User
+  userEmail: String!
+  Likes: [Likes!]!
+  Comment: [Comment!]!
+}
+
+enum Status {
+  inProgress
+  resolved
+  unResolved
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Comment {
+  id: String!
+  user: User!
+  UserEmail: String!
+  idea: Idea!
+  ideaID: String!
+  message: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type User {
+  email: String!
+  name: String
+  picture: String
+  description: String
+  isEmailPublic: Boolean!
+  solvedIdeas: [Idea!]!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  deletedAt: DateTime
+  Likes: [Likes!]!
+  Comment: [Comment!]!
+}
+
+type Query {
+  hello: String!
+}
+
+type Mutation {
+  createUser(authInputData: AuthInputData!): User!
+  createIdea(ideaInputData: IdeaInputData!): Idea!
+}
+
+input AuthInputData {
+  email: String!
+  name: String!
+  picture: String!
+}
+
+input IdeaInputData {
+  title: String!
+  caption: String!
+  author: String
+  lineID: String!
+}
