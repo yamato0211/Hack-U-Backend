@@ -8,6 +8,7 @@ import { AuthModule } from './user/auth/auth.module';
 import { PrismaService } from './prisma.service';
 import { join } from 'path';
 import { IdeaModule } from './idea/idea.module';
+import { AuthService } from './user/auth/auth.service';
 
 @Module({
   imports: [
@@ -19,6 +20,12 @@ import { IdeaModule } from './idea/idea.module';
     IdeaModule,
   ],
   controllers: [],
-  providers: [AppResolver, AppService, AuthResolver, PrismaService],
+  providers: [
+    AppResolver,
+    AppService,
+    AuthResolver,
+    PrismaService,
+    AuthService,
+  ],
 })
 export class AppModule {}
