@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,65 +7,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  email         String    @id @unique
+model comments {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  message    String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  userEmail  String
+  ideaID     String   @db.Uuid
+  ideas      ideas    @relation(fields: [ideaID], references: [id], onUpdate: Restrict)
+  users      users    @relation(fields: [userEmail], references: [email], onUpdate: Restrict)
+}
+
+model ideas {
+  id                          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title                       String
+  caption                     String
+  lineID                      String     @unique
+  author                      String?
+  status                      String
+  views                       Int        @default(0)
+  created_at                  DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at                  DateTime   @default(now()) @db.Timestamptz(6)
+  userEmail                   String?
+  comments                    comments[]
+  status_ideas_statusTostatus status     @relation("ideas_statusTostatus", fields: [status], references: [type], onUpdate: Restrict)
+  users                       users?     @relation(fields: [userEmail], references: [email], onDelete: Restrict, onUpdate: Restrict)
+  likes                       likes[]
+}
+
+model likes {
+  userEmail String
+  ideaID    String @db.Uuid
+  ideas     ideas  @relation(fields: [ideaID], references: [id], onUpdate: Restrict)
+  users     users  @relation(fields: [userEmail], references: [email], onUpdate: Restrict)
+
+  @@id([userEmail, ideaID])
+}
+
+model messages {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  message    String
+  sernderID  String
+  receverID  String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model status {
+  type                       String  @id
+  ideas_ideas_statusTostatus ideas[] @relation("ideas_statusTostatus")
+}
+
+model users {
+  email         String     @id
   name          String?
   picture       String?
   description   String?
-  isEmailPublic Boolean   @default(false)
-  solvedIdeas   Idea[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime? @updatedAt
-  deletedAt     DateTime?
-  Likes         Likes[]
-  Comment       Comment[]
-}
-
-enum Status {
-  inProgress
-  resolved
-  unResolved
-}
-
-model Idea {
-  id        String    @id @default(uuid())
-  title     String
-  caption   String
-  lineID    String    @unique
-  author    String?
-  status    Status    @default(unResolved)
-  views     Int       @default(0)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  User      User?     @relation(fields: [userEmail], references: [email])
-  userEmail String?
-  Likes     Likes[]
-  Comment   Comment[]
-}
-
-model Likes {
-  user      User   @relation(fields: [UserEmail], references: [email])
-  UserEmail String
-  idea      Idea   @relation(fields: [ideaID], references: [id])
-  ideaID    String
-
-  @@id([UserEmail, ideaID])
-}
-
-model Comment {
-  id        String  @id @default(uuid())
-  user      User    @relation(fields: [UserEmail], references: [email])
-  UserEmail String
-  idea      Idea    @relation(fields: [ideaID], references: [id])
-  ideaID    String
-  message   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Message {
-  id String @id @default(uuid())
-  message String? 
-  senderID String
-  receverID String
+  isEmailPublic Boolean    @default(false)
+  created_at    DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime   @default(now()) @db.Timestamptz(6)
+  comments      comments[]
+  ideas         ideas[]
+  likes         likes[]
 }

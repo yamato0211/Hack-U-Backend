@@ -21,7 +21,7 @@ export class User {
   isEmailPublic: boolean;
 
   @Field((type) => [Idea])
-  solvedIdeas: Idea[];
+  ideas: Idea[];
 
   @Field()
   createdAt: Date;
@@ -29,14 +29,11 @@ export class User {
   @Field({ nullable: true })
   updatedAt: Date;
 
-  @Field({ nullable: true })
-  deletedAt: Date;
-
   @Field((type) => [Likes])
-  Likes: Likes[];
+  likes: Likes[];
 
   @Field((type) => [Comment])
-  Comment: Comment[];
+  comments: Comment[];
 }
 
 @InputType()

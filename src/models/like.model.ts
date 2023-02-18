@@ -8,7 +8,7 @@ export class Likes {
   user: User;
 
   @Field()
-  UserEmail: string;
+  userEmail: string;
 
   @Field((type) => Idea)
   idea: Idea;

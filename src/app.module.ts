@@ -7,7 +7,6 @@ import { AuthResolver } from './user/auth/auth.resolver';
 import { AuthModule } from './user/auth/auth.module';
 import { PrismaService } from './prisma.service';
 import { join } from 'path';
-import { IdeaModule } from './idea/idea.module';
 import { AuthService } from './user/auth/auth.service';
 
 @Module({
@@ -17,7 +16,6 @@ import { AuthService } from './user/auth/auth.service';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     AuthModule,
-    IdeaModule,
   ],
   controllers: [],
   providers: [

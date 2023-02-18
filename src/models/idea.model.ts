@@ -8,11 +8,7 @@ import {
 import { Comment } from './comment.model';
 import { Likes } from './like.model';
 import { User } from './user.model';
-import { Status } from '@prisma/client';
-
-registerEnumType(Status, {
-  name: 'Status',
-});
+import { status } from '@prisma/client';
 
 @ObjectType()
 export class Idea {
@@ -31,8 +27,8 @@ export class Idea {
   @Field({ nullable: true })
   auther: string;
 
-  @Field((type) => Status)
-  status: Status;
+  @Field()
+  status: string;
 
   @Field((type) => Int)
   views: number;

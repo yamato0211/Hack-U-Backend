@@ -13,7 +13,7 @@ export class AuthResolver {
 
   @Mutation((returns) => String)
   async createUser(@Args('authInputData') authInputData: AuthInputData) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.users.findUnique({
       where: { email: authInputData.email },
     });
 
@@ -27,16 +27,16 @@ export class AuthResolver {
     }
 
     try {
-      await this.prisma.user.create({
+      await this.prisma.users.create({
         data: {
           email: authInputData.email,
           name: authInputData.name,
           picture: authInputData.picture,
         },
         include: {
-          solvedIdeas: true,
-          Likes: true,
-          Comment: true,
+          ideas: true,
+          likes: true,
+          comments: true,
         },
       });
 

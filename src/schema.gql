@@ -4,7 +4,7 @@
 
 type Likes {
   user: User!
-  UserEmail: String!
+  userEmail: String!
   idea: Idea!
   ideaID: String!
 }
@@ -15,7 +15,7 @@ type Idea {
   caption: String!
   lineID: String!
   auther: String
-  status: Status!
+  status: String!
   views: Int!
   createdAt: DateTime!
   updatedAt: DateTime
@@ -23,12 +23,6 @@ type Idea {
   userEmail: String!
   Likes: [Likes!]!
   Comment: [Comment!]!
-}
-
-enum Status {
-  inProgress
-  resolved
-  unResolved
 }
 
 """
@@ -39,7 +33,7 @@ scalar DateTime
 type Comment {
   id: String!
   user: User!
-  UserEmail: String!
+  userEmail: String!
   idea: Idea!
   ideaID: String!
   message: String!
@@ -53,12 +47,11 @@ type User {
   picture: String
   description: String
   isEmailPublic: Boolean!
-  solvedIdeas: [Idea!]!
+  ideas: [Idea!]!
   createdAt: DateTime!
   updatedAt: DateTime
-  deletedAt: DateTime
-  Likes: [Likes!]!
-  Comment: [Comment!]!
+  likes: [Likes!]!
+  comments: [Comment!]!
 }
 
 type Query {
@@ -67,18 +60,10 @@ type Query {
 
 type Mutation {
   createUser(authInputData: AuthInputData!): String!
-  createIdea(ideaInputData: IdeaInputData!): Idea!
 }
 
 input AuthInputData {
   email: String!
   name: String!
   picture: String!
-}
-
-input IdeaInputData {
-  title: String!
-  caption: String!
-  author: String
-  lineID: String!
 }

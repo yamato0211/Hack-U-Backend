@@ -11,7 +11,7 @@ export class Comment {
   user: User;
 
   @Field()
-  UserEmail: string;
+  userEmail: string;
 
   @Field((type) => Idea)
   idea: Idea;
