@@ -24,8 +24,8 @@ export class AuthService {
       name: name,
       picture: picture,
       'https://hasura.io/jwt/claims': {
-        'x-hasura-allowed-roles': ['User', 'line', 'anonymous'],
-        'x-hasura-default-role': 'User',
+        'x-hasura-allowed-roles': ['user', 'anonymous'],
+        'x-hasura-default-role': 'user',
         'x-hasura-user-id': email,
       },
     };

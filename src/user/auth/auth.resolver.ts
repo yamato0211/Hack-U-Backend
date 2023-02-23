@@ -20,10 +20,26 @@ export class AuthResolver {
     console.log('user: ' + user);
 
     if (user) {
-      throw new HttpException(
-        'this email user is already existed!',
-        HttpStatus.BAD_REQUEST,
-      );
+      try {
+        await this.prisma.users.update({
+          where: { email: authInputData.email },
+          data: {
+            name: authInputData.name,
+            picture: authInputData.picture,
+          },
+        });
+
+        return this.authService.createJWT(
+          authInputData.name,
+          authInputData.email,
+          authInputData.picture,
+        );
+      } catch (e) {
+        throw new HttpException(
+          'update user is failed',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
     }
 
     try {
